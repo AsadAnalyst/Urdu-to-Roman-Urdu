@@ -1,0 +1,50 @@
+{
+  "model": {
+    "embedding_dim": 256,
+    "hidden_size": 512,
+    "encoder_layers": 2,
+    "decoder_layers": 4,
+    "dropout": 0.3,
+    "attention_dim": 256,
+    "max_sequence_length": 100
+  },
+  "training": {
+    "learning_rate": 0.001,
+    "batch_size": 64,
+    "epochs": 3,
+    "patience": 10,
+    "gradient_clip": 1.0,
+    "teacher_forcing_ratio": 0.5
+  },
+  "data": {
+    "vocab_size_limit": 10000,
+    "min_freq": 2,
+    "tokenization": "char",
+    "train_split": 0.5,
+    "val_split": 0.25,
+    "test_split": 0.25
+  },
+  "paths": {
+    "data_dir": "data/urdu_ghazals_rekhta",
+    "models_dir": "models",
+    "logs_dir": "logs",
+    "results_dir": "results"
+  },
+  "experiments": [
+    {
+      "name": "exp1_embedding_variations",
+      "embedding_dim": [128, 256, 512],
+      "description": "Vary embedding dimensions"
+    },
+    {
+      "name": "exp2_dropout_variations", 
+      "dropout": [0.1, 0.3, 0.5],
+      "description": "Vary dropout rates"
+    },
+    {
+      "name": "exp3_hidden_size_variations",
+      "hidden_size": [256, 512, 768],
+      "description": "Vary LSTM hidden sizes"
+    }
+  ]
+}

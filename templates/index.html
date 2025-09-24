@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌟 Urdu to Roman Transliterator</title>
+    
+    <!-- Beautiful Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Beautiful Animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <style>
+        /* ===== MODERN CSS VARIABLES ===== */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --bg-white: #ffffff;
+            --bg-light: #f7fafc;
+            --border-color: #e2e8f0;
+            --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.15);
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ===== GLOBAL STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* ===== HEADER STYLES ===== */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* ===== MAIN CARD STYLES ===== */
+        .main-card {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .main-card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .card-header h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .card-body {
+            padding: 2.5rem;
+        }
+
+        /* ===== INPUT SECTION STYLES ===== */
+        .input-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+        }
+
+        .urdu-input {
+            width: 100%;
+            min-height: 120px;
+            padding: 1.5rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-family: 'Noto Nastaliq Urdu', serif;
+            font-size: 1.5rem;
+            line-height: 1.8;
+            resize: vertical;
+            transition: var(--transition);
+            direction: rtl;
+            text-align: right;
+        }
+
+        .urdu-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .urdu-input::placeholder {
+            color: #a0aec0;
+            font-style: italic;
+        }
+
+        /* ===== BUTTON STYLES ===== */
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .btn-secondary {
+            background: var(--secondary-gradient);
+            color: white;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .btn-info {
+            background: var(--success-gradient);
+            color: white;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ===== LOADING SPINNER ===== */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ===== RESULT SECTION STYLES ===== */
+        .result-section {
+            margin-top: 2rem;
+        }
+
+        .result-card {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            border: 2px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .result-card.show {
+            border-color: #4facfe;
+            box-shadow: 0 0 20px rgba(79, 172, 254, 0.2);
+        }
+
+        .roman-output {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 1.5rem;
+            background: white;
+            border-radius: var(--border-radius);
+            border: 2px dashed var(--border-color);
+            margin-bottom: 1rem;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+        }
+
+        .roman-output.filled {
+            border-color: #48bb78;
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+        }
+
+        /* ===== TOKEN VISUALIZATION STYLES ===== */
+        .token-section {
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .token-section.show {
+            display: block;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .token-grid {
+            margin-bottom: 2rem;
+        }
+
+        .token-column {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .token-column h3 {
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .token-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .token-item {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .token-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .token-item.urdu {
+            font-family: 'Noto Nastaliq Urdu', serif;
+            background: var(--secondary-gradient);
+        }
+
+        /* ===== ATTENTION HEATMAP STYLES - REMOVED ===== */
+
+        /* ===== CONFIDENCE SCORES ===== */
+        .confidence-section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-soft);
+            margin-top: 1rem;
+        }
+
+        .confidence-bar {
+            background: var(--bg-light);
+            border-radius: 50px;
+            height: 10px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .confidence-fill {
+            background: var(--success-gradient);
+            height: 100%;
+            border-radius: 50px;
+            transition: width 0.5s ease;
+        }
+
+        /* ===== ALERT STYLES ===== */
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .alert-error {
+            background: linear-gradient(135deg, #fed7d7 0%, #feb2b2 100%);
+            color: #742a2a;
+            border: 1px solid #fc8181;
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            color: #22543d;
+            border: 1px solid #48bb78;
+        }
+
+        .alert-info {
+            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+            color: #234e52;
+            border: 1px solid #4fd1c7;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .token-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .card-body {
+                padding: 1.5rem;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        /* ===== STATUS INDICATOR ===== */
+        .status-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            color: white;
+            font-weight: 600;
+            box-shadow: var(--shadow-soft);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .status-indicator.loading {
+            background: var(--secondary-gradient);
+        }
+
+        .status-indicator.success {
+            background: var(--success-gradient);
+        }
+
+        .status-indicator.error {
+            background: linear-gradient(135deg, #fc8181 0%, #f56565 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header animate__animated animate__fadeInDown">
+            <h1><i class="fas fa-language"></i> Urdu to Roman Transliterator</h1>
+            <p>Beautiful AI-powered transliteration with token analysis and attention visualization</p>
+        </div>
+
+        <!-- Main Card -->
+        <div class="main-card animate__animated animate__fadeInUp">
+            <div class="card-header">
+                <h2><i class="fas fa-magic"></i> Transform Your Text</h2>
+                <p>Enter Urdu text and watch the magic happen with real-time transliteration</p>
+            </div>
+
+            <div class="card-body">
+                <!-- Input Section -->
+                <div class="input-section">
+                    <div class="form-group">
+                        <label for="urduInput">
+                            <i class="fas fa-edit"></i> Enter Urdu Text:
+                        </label>
+                        <textarea 
+                            id="urduInput" 
+                            class="urdu-input" 
+                            placeholder="یہاں اردو متن لکھیں..."
+                            rows="4"
+                        ></textarea>
+                    </div>
+
+                    <!-- Button Group -->
+                    <div class="button-group">
+                        <button id="translateBtn" class="btn btn-primary">
+                            <i class="fas fa-sync-alt"></i>
+                            <span>Transliterate</span>
+                        </button>
+                        <button id="showTokensBtn" class="btn btn-secondary" disabled>
+                            <i class="fas fa-tags"></i>
+                            <span>Show Tokens</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Result Section -->
+                <div id="resultSection" class="result-section">
+                    <div class="result-card">
+                        <label>
+                            <i class="fas fa-language"></i> Roman Urdu Output:
+                        </label>
+                        <div id="romanOutput" class="roman-output">
+                            Your transliteration will appear here...
+                        </div>
+                        
+                        <!-- Confidence Score -->
+                        <div id="confidenceSection" class="confidence-section" style="display: none;">
+                            <h4><i class="fas fa-chart-line"></i> Confidence Score</h4>
+                            <div class="confidence-bar">
+                                <div id="confidenceFill" class="confidence-fill" style="width: 0%"></div>
+                            </div>
+                            <p id="confidenceText">0% confidence</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Token Visualization Section -->
+                <div id="tokenSection" class="token-section">
+                    <h3><i class="fas fa-tags"></i> Token Analysis</h3>
+                    <div class="token-grid">
+                        <div class="token-column" style="grid-column: 1 / -1;">
+                            <h3><i class="fas fa-text-width"></i> Source Tokens (Urdu)</h3>
+                            <div id="sourceTokens" class="token-list"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Indicator -->
+    <div id="statusIndicator" class="status-indicator" style="display: none;"></div>
+
+    <!-- JavaScript -->
+    <script>
+        // Global variables
+        let currentTranslationData = null;
+
+        // DOM elements
+        const urduInput = document.getElementById('urduInput');
+        const translateBtn = document.getElementById('translateBtn');
+        const showTokensBtn = document.getElementById('showTokensBtn');
+        const romanOutput = document.getElementById('romanOutput');
+        const resultSection = document.getElementById('resultSection');
+        const tokenSection = document.getElementById('tokenSection');
+        const statusIndicator = document.getElementById('statusIndicator');
+
+        // Event listeners
+        translateBtn.addEventListener('click', handleTranslate);
+        showTokensBtn.addEventListener('click', toggleTokens);
+        
+        // Real-time typing effect (optional)
+        urduInput.addEventListener('input', debounce(handleInputChange, 500));
+
+        // Functions
+        function showStatus(message, type = 'info') {
+            statusIndicator.textContent = message;
+            statusIndicator.className = `status-indicator ${type}`;
+            statusIndicator.style.display = 'block';
+            
+            if (type !== 'loading') {
+                setTimeout(() => {
+                    statusIndicator.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        function setLoading(isLoading) {
+            const spinner = isLoading ? '<span class="spinner"></span>' : '<i class="fas fa-sync-alt"></i>';
+            translateBtn.innerHTML = `${spinner} <span>${isLoading ? 'Transliterating...' : 'Transliterate'}</span>`;
+            translateBtn.disabled = isLoading;
+            
+            if (isLoading) {
+                showStatus('Processing your text...', 'loading');
+            }
+        }
+
+        async function handleTranslate() {
+            const urduText = urduInput.value.trim();
+            
+            if (!urduText) {
+                showAlert('Please enter some Urdu text first!', 'error');
+                return;
+            }
+
+            setLoading(true);
+
+            try {
+                const response = await fetch('/api/transliterate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text: urduText })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    currentTranslationData = data;
+                    displayResult(data);
+                    showStatus('Translation completed successfully!', 'success');
+                } else {
+                    showAlert(data.error || 'Translation failed', 'error');
+                }
+            } catch (error) {
+                showAlert('Network error: ' + error.message, 'error');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        function displayResult(data) {
+            // Display roman text
+            romanOutput.textContent = data.roman_text;
+            romanOutput.classList.add('filled');
+            
+            // Show confidence if available
+            if (data.confidence_scores && data.confidence_scores.length > 0) {
+                const avgConfidence = data.confidence_scores.reduce((a, b) => a + b, 0) / data.confidence_scores.length;
+                const confidencePercentage = Math.round(avgConfidence * 100);
+                
+                document.getElementById('confidenceSection').style.display = 'block';
+                document.getElementById('confidenceFill').style.width = confidencePercentage + '%';
+                document.getElementById('confidenceText').textContent = `${confidencePercentage}% confidence`;
+            }
+
+            // Enable action buttons
+            showTokensBtn.disabled = false;
+
+            // Show result section with animation
+            resultSection.querySelector('.result-card').classList.add('show');
+        }
+
+        function toggleTokens() {
+            if (!currentTranslationData) return;
+
+            if (tokenSection.classList.contains('show')) {
+                tokenSection.classList.remove('show');
+                showTokensBtn.innerHTML = '<i class="fas fa-tags"></i> <span>Show Tokens</span>';
+            } else {
+                displayTokens(currentTranslationData);
+                tokenSection.classList.add('show');
+                showTokensBtn.innerHTML = '<i class="fas fa-eye-slash"></i> <span>Hide Tokens</span>';
+            }
+        }
+
+        function displayTokens(data) {
+            const sourceTokensEl = document.getElementById('sourceTokens');
+
+            // Clear previous tokens
+            sourceTokensEl.innerHTML = '';
+
+            // Get unique source tokens (excluding special tokens)
+            const uniqueSourceTokens = [];
+            const seenSourceTokens = new Set();
+            
+            data.source_tokens.forEach((token, index) => {
+                if (token !== '<SOS>' && token !== '<EOS>' && token !== '<PAD>' && !seenSourceTokens.has(token)) {
+                    seenSourceTokens.add(token);
+                    uniqueSourceTokens.push({
+                        token: token,
+                        index: index,
+                        id: data.source_token_ids[index]
+                    });
+                }
+            });
+
+            // Display unique source tokens
+            uniqueSourceTokens.forEach((tokenData) => {
+                const tokenEl = document.createElement('span');
+                tokenEl.className = 'token-item urdu';
+                tokenEl.textContent = tokenData.token;
+                tokenEl.title = `Token: "${tokenData.token}" (ID: ${tokenData.id})`;
+                sourceTokensEl.appendChild(tokenEl);
+            });
+        }
+
+        async function showAttentionHeatmap() {
+            // Attention visualization has been removed
+            showAlert('Attention visualization has been disabled', 'info');
+        }
+
+        function showAlert(message, type) {
+            const existingAlert = document.querySelector('.alert');
+            if (existingAlert) {
+                existingAlert.remove();
+            }
+
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type} animate__animated animate__fadeInDown`;
+            
+            const icon = type === 'error' ? 'fas fa-exclamation-triangle' : 
+                        type === 'success' ? 'fas fa-check-circle' : 'fas fa-info-circle';
+            
+            alert.innerHTML = `<i class="${icon}"></i> ${message}`;
+            
+            const cardBody = document.querySelector('.card-body');
+            cardBody.insertBefore(alert, cardBody.firstChild);
+
+            setTimeout(() => {
+                alert.classList.add('animate__fadeOut');
+                setTimeout(() => alert.remove(), 500);
+            }, 5000);
+        }
+
+        function handleInputChange() {
+            // Reset UI when input changes
+            currentTranslationData = null;
+            showTokensBtn.disabled = true;
+            tokenSection.classList.remove('show');
+            romanOutput.classList.remove('filled');
+            romanOutput.textContent = 'Your transliteration will appear here...';
+            document.getElementById('confidenceSection').style.display = 'none';
+            
+            if (showTokensBtn.innerHTML.includes('Hide')) {
+                showTokensBtn.innerHTML = '<i class="fas fa-tags"></i> <span>Show Tokens</span>';
+            }
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            showStatus('Ready to transliterate!', 'success');
+            urduInput.focus();
+        });
+
+        // Add some example text for demo
+        const examples = [
+            "اس ایک بات پہ دنیا سے جنگ جاری ہے",
+            "پرو کی اب کے نہی حوصلو کی باری ہے",
+            "گردش مجنو بہ چشمک ہائے لیلیٰ آشنا"
+        ];
+
+        // Add example button
+        function addExampleButton() {
+            const exampleBtn = document.createElement('button');
+            exampleBtn.className = 'btn btn-info';
+            exampleBtn.innerHTML = '<i class="fas fa-lightbulb"></i> <span>Try Example</span>';
+            exampleBtn.addEventListener('click', () => {
+                const randomExample = examples[Math.floor(Math.random() * examples.length)];
+                urduInput.value = randomExample;
+                handleInputChange();
+            });
+            
+            document.querySelector('.button-group').appendChild(exampleBtn);
+        }
+
+        // Add example button when page loads
+        document.addEventListener('DOMContentLoaded', addExampleButton);
+    </script>
+</body>
+</html>
